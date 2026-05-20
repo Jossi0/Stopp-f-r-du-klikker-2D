@@ -18,6 +18,14 @@ public class InboxManager : MonoBehaviour
     public GameObject winPanel;
     public GameObject gameOverPanel;
 
+    [Header("Checkmarks")]
+    public GameObject giftCheckmark;
+    public GameObject kontoCheckmark;
+    public GameObject schoolCheckmark;
+    public GameObject libraryCheckmark;
+    public GameObject idrettCheckmark;
+    public GameObject busskortCheckmark;
+
     // -------------------------
     // OPEN MAILS
     // -------------------------
@@ -78,6 +86,32 @@ public class InboxManager : MonoBehaviour
     {
         currentMail.SetActive(false);
 
+        // Aktiver riktig checkmark
+        if (currentMail == giftMailPanel)
+        {
+            giftCheckmark.SetActive(true);
+        }
+        else if (currentMail == kontoMailPanel)
+        {
+            kontoCheckmark.SetActive(true);
+        }
+        else if (currentMail == schoolMailPanel)
+        {
+            schoolCheckmark.SetActive(true);
+        }
+        else if (currentMail == libraryMailPanel)
+        {
+            libraryCheckmark.SetActive(true);
+        }
+        else if (currentMail == idrettMailPanel)
+        {
+            idrettCheckmark.SetActive(true);
+        }
+        else if (currentMail == busskortMailPanel)
+        {
+            busskortCheckmark.SetActive(true);
+        }
+
         if (winPanel != null)
         {
             winPanel.SetActive(true);
@@ -101,16 +135,6 @@ public class InboxManager : MonoBehaviour
     public void ReturnToInbox()
     {
         CloseAllMailPanels();
-
-        if (winPanel != null)
-        {
-            winPanel.SetActive(false);
-        }
-
-        if (gameOverPanel != null)
-        {
-            gameOverPanel.SetActive(false);
-        }
 
         inboxPanel.SetActive(true);
     }
@@ -136,5 +160,15 @@ public class InboxManager : MonoBehaviour
         libraryMailPanel.SetActive(false);
         idrettMailPanel.SetActive(false);
         busskortMailPanel.SetActive(false);
+
+        if (winPanel != null)
+        {
+            winPanel.SetActive(false);
+        }
+
+        if (gameOverPanel != null)
+        {
+            gameOverPanel.SetActive(false);
+        }
     }
 }
