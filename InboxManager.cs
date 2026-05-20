@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class InboxManager : MonoBehaviour
 {
@@ -13,47 +14,119 @@ public class InboxManager : MonoBehaviour
     public GameObject idrettMailPanel;
     public GameObject busskortMailPanel;
 
+    [Header("Result Panels")]
+    public GameObject winPanel;
+    public GameObject gameOverPanel;
+
+    // -------------------------
+    // OPEN MAILS
+    // -------------------------
 
     public void OpenGiftMail()
     {
-        CloseAllMailPanels();
-        giftMailPanel.SetActive(true);
+        OpenMail(giftMailPanel);
     }
 
     public void OpenKontoMail()
     {
-        CloseAllMailPanels();
-        kontoMailPanel.SetActive(true);
+        OpenMail(kontoMailPanel);
     }
 
     public void OpenSchoolMail()
     {
-        CloseAllMailPanels();
-        schoolMailPanel.SetActive(true);
+        OpenMail(schoolMailPanel);
     }
 
     public void OpenLibraryMail()
     {
-        CloseAllMailPanels();
-        libraryMailPanel.SetActive(true);
+        OpenMail(libraryMailPanel);
     }
 
     public void OpenIdrettMail()
     {
-        CloseAllMailPanels();
-        idrettMailPanel.SetActive(true);
+        OpenMail(idrettMailPanel);
     }
-    
+
     public void OpenBusskortMail()
     {
-        CloseAllMailPanels();
-        busskortMailPanel.SetActive(true);
+        OpenMail(busskortMailPanel);
     }
+
+    void OpenMail(GameObject mailPanel)
+    {
+        CloseAllMailPanels();
+
+        inboxPanel.SetActive(false);
+        mailPanel.SetActive(true);
+    }
+
+    // -------------------------
+    // CLOSE MAIL
+    // -------------------------
 
     public void CloseMail(GameObject mailPanel)
     {
         mailPanel.SetActive(false);
+        inboxPanel.SetActive(true);
     }
+
+    // -------------------------
+    // ANSWERS
+    // -------------------------
+
+    public void CorrectChoice(GameObject currentMail)
+    {
+        currentMail.SetActive(false);
+
+        if (winPanel != null)
+        {
+            winPanel.SetActive(true);
+        }
+    }
+
+    public void WrongChoice(GameObject currentMail)
+    {
+        currentMail.SetActive(false);
+
+        if (gameOverPanel != null)
+        {
+            gameOverPanel.SetActive(true);
+        }
+    }
+
+    // -------------------------
+    // RETURN TO INBOX
+    // -------------------------
+
+    public void ReturnToInbox()
+    {
+        CloseAllMailPanels();
+
+        if (winPanel != null)
+        {
+            winPanel.SetActive(false);
+        }
+
+        if (gameOverPanel != null)
+        {
+            gameOverPanel.SetActive(false);
+        }
+
+        inboxPanel.SetActive(true);
+    }
+
+    // -------------------------
+    // RESTART GAME
+    // -------------------------
+
+    public void RestartGame()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    // -------------------------
+    // HELPERS
+    // -------------------------
 
     void CloseAllMailPanels()
     {
