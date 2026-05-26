@@ -8,8 +8,15 @@ public class ReportManager : MonoBehaviour
     public GameObject failPanel;
     public GameObject inboxPanel;
 
+    [Header("Task")]
+    public GameObject reportTaskCheckmark;
+    public TaskManager taskManager;
+
     // Husker hvilken mail som ble valgt
     private bool selectedMailIsScam;
+
+    // Hindrer at oppgaven telles flere ganger
+    private bool reportTaskCompleted = false;
 
     // -------------------------
     // ÅPNE REPORT PANEL
@@ -34,6 +41,22 @@ public class ReportManager : MonoBehaviour
         if (selectedMailIsScam)
         {
             successPanel.SetActive(true);
+
+            // Fullfør oppgaven kun én gang
+            if (!reportTaskCompleted)
+            {
+                reportTaskCompleted = true;
+
+                if (reportTaskCheckmark != null)
+                {
+                    reportTaskCheckmark.SetActive(true);
+                }
+
+                if (taskManager != null)
+                {
+                    taskManager.CompleteTask();
+                }
+            }
         }
         else
         {

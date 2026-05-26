@@ -8,15 +8,30 @@ public class NotesPanel : MonoBehaviour
     [Header("Task Checkmark")]
     public GameObject notesTaskCheckmark;
 
+    [Header("Task Manager")]
+    public TaskManager taskManager;
+
+    private bool notesTaskCompleted = false;
+
     // Åpne notatpanel
     public void OpenNotes()
     {
         notesPanel.SetActive(true);
 
-        // Vis checkmark
-        if (notesTaskCheckmark != null)
+        // Fullfør oppgaven kun én gang
+        if (!notesTaskCompleted)
         {
-            notesTaskCheckmark.SetActive(true);
+            notesTaskCompleted = true;
+
+            if (notesTaskCheckmark != null)
+            {
+                notesTaskCheckmark.SetActive(true);
+            }
+
+            if (taskManager != null)
+            {
+                taskManager.CompleteTask();
+            }
         }
     }
 

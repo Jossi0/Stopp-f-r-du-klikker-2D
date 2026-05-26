@@ -21,9 +21,14 @@ public class PasswordQuiz : MonoBehaviour
     [Header("Task Checkmarks")]
     public GameObject passwordTaskCheckmark;
 
+    [Header("Task Manager")]
+    public TaskManager taskManager;
+
     // Husker om PC-en allerede er låst opp
     private bool pcUnlocked = false;
 
+    // Hindrer at oppgaven telles flere ganger
+    private bool passwordTaskCompleted = false;
 
     // -------------------------
     // FEIL PASSORD PÅ TABLET
@@ -34,7 +39,6 @@ public class PasswordQuiz : MonoBehaviour
         feedbackText.color = Color.red;
     }
 
-
     // -------------------------
     // RIKTIG PASSORD PÅ TABLET
     // -------------------------
@@ -43,20 +47,28 @@ public class PasswordQuiz : MonoBehaviour
         feedbackText.text = "Bra jobbet! Husk passordet for å låse opp PC-en.";
         feedbackText.color = Color.green;
 
-        // Vis checkmark på oppgavepanelet
-        if (passwordTaskCheckmark != null)
+        // Fullfør oppgaven kun én gang
+        if (!passwordTaskCompleted)
         {
-            passwordTaskCheckmark.SetActive(true);
+            passwordTaskCompleted = true;
+
+            if (passwordTaskCheckmark != null)
+            {
+                passwordTaskCheckmark.SetActive(true);
+            }
+
+            if (taskManager != null)
+            {
+                taskManager.CompleteTask();
+            }
         }
     }
-
 
     // -------------------------
     // ÅPNE PC
     // -------------------------
     public void OpenPC()
     {
-        // Hvis PC allerede er unlocked
         if (pcUnlocked)
         {
             pcInboxPanel.SetActive(true);
@@ -65,12 +77,10 @@ public class PasswordQuiz : MonoBehaviour
         {
             pcLockedPanel.SetActive(true);
 
-            // Reset loginfelt
             passwordInput.text = "";
             pcFeedbackText.text = "";
         }
     }
-
 
     // -------------------------
     // SJEKK PASSORD
@@ -79,17 +89,14 @@ public class PasswordQuiz : MonoBehaviour
     {
         if (passwordInput.text == correctPassword)
         {
-            // Lås opp PC permanent
             pcUnlocked = true;
 
             pcFeedbackText.text = "PC låst opp!";
             pcFeedbackText.color = Color.green;
 
-            // Åpne inbox
             pcLockedPanel.SetActive(false);
             pcInboxPanel.SetActive(true);
 
-            // Tøm inputfelt
             passwordInput.text = "";
         }
         else
@@ -98,7 +105,6 @@ public class PasswordQuiz : MonoBehaviour
             pcFeedbackText.color = Color.red;
         }
     }
-
 
     // -------------------------
     // LUKK PANEL

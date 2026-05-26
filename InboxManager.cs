@@ -29,9 +29,14 @@ public class InboxManager : MonoBehaviour
     [Header("Task Checkmarks")]
     public GameObject allEmailsTaskCheckmark;
 
+    [Header("Task Manager")]
+    public TaskManager taskManager;
+
     [Header("Progress")]
     private int completedEmails = 0;
     private int totalEmails = 6;
+
+    private bool emailsTaskCompleted = false;
 
     // Hindrer samme mail fra å telle flere ganger
     private bool giftDone = false;
@@ -173,16 +178,23 @@ public class InboxManager : MonoBehaviour
             }
         }
 
-        // VIS OPPGAVE-CHECKMARK NÅR ALLE MAILER ER FERDIGE
-        if (completedEmails >= totalEmails)
+        // ALLE E-POSTER FULLFØRT
+        if (completedEmails >= totalEmails && !emailsTaskCompleted)
         {
+            emailsTaskCompleted = true;
+
             if (allEmailsTaskCheckmark != null)
             {
                 allEmailsTaskCheckmark.SetActive(true);
             }
+
+            if (taskManager != null)
+            {
+                taskManager.CompleteTask();
+            }
         }
 
-        // ÅPNE WIN PANEL
+        // ÅPNE WIN PANEL FOR DEN ENKELTE MAILEN
         if (winPanel != null)
         {
             winPanel.SetActive(true);
